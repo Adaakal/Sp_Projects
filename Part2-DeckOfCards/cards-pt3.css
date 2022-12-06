@@ -1,0 +1,50 @@
+body {
+    background-color: bisque;
+    display: block;
+    justify-content: center;
+}
+
+#btn-container {
+    display: flex;
+    justify-content: center;
+    
+}
+.btn {
+    height: 40px;
+    width: 180px;
+    position: absolute;
+    /* display: flex;
+    flex-direction: row; */
+    grid-column: 1;
+    grid-row: 1;
+    margin: 10px;
+    background-color:cadetblue;
+    
+}
+
+.btn:hover {
+    background-color: darkcyan;
+}
+
+#card-container {
+    display: flex;   
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px;
+}
+
+img {
+    display: flex;   
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-self: center;
+    margin: 50px;
+
+}
+
+p {
+    display: inline;
+    margin: 645px;
+    font-family: Copse, Helvetica;
+}
