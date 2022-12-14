@@ -1,41 +1,61 @@
+const BASE_URL = "https://deckofcardsapi.com/api/deck/";
+const SHUFFLE_AND_DRAW = "https://deckofcardsapi.com/api/deck/new/draw/";
+const drawCardURLEndPoint = "/draw/";
+
 const btnContainer = document.querySelector("#btn-container");
-const drawCardBtn = document.createElement("button");
-drawCardBtn.setAttribute("class", "btn");
-drawCardBtn.textContent = "Draw a Card";
+// const cardContainer = document.querySelector("#card-container");
+const drawCardBtn = document.querySelector("#draw");
 
-btnContainer.appendChild(drawCardBtn);
 const cardImg = document.createElement("img");
-const cardContainer = document.querySelector("#card-container");
-document.body.appendChild(btnContainer);
-document.body.appendChild(cardContainer);
-
 const cardDescription = document.createElement("p");
-window.onload = (e) => {
-  console.log("Page is loaded");
 
-  
+async function partOne() {
+  let res = await axios.get(`${SHUFFLE_AND_DRAW}`);
+  let deck = res.data;
+  let deckId = deck.deck_id;
+  console.log("Part One draw ", deck);
+  console.log("deck ID", deckId);
+  let { value, suit } = deck.cards[0];
 
-  const shuffleDeckURL =
-    "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
-  axios.get(shuffleDeckURL).then((res) => {
-    // console.log(res);
-    const deckId = res.data.deck_id;
-    const drawCardURL = `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`;
-    drawCardBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      axios.get(drawCardURL).then((res) => {
-        console.log(res);
-        const cardCode = res.data.cards[0].code;
-        cardImg.src = `https://deckofcardsapi.com/static/img/${cardCode}.png`;
-        cardContainer.appendChild(cardImg);
-        cardDescription.setHTML(
-          `${res.data.cards[0].value} of ${res.data.cards[0].suit}`
-        );
-        document.body.appendChild(cardDescription);
+  console.log(`${value} of ${suit}`);
+}
+partOne();
 
-      });
-
-  
-    });
+async function partTwo() {
+  let drawOne = await axios.get(`${SHUFFLE_AND_DRAW}`);
+  let deckId = drawOne.data.deck_id;
+  let cardOne = drawOne.data.cards[0];
+  console.log("Part 2 draw 1", cardOne);
+  console.log("deck ID", deckId);
+  let drawTwo = await axios.get(`${BASE_URL}${deckId}${drawCardURLEndPoint}`);
+  let cardTwo = drawTwo.data.cards[0];
+  console.log("Part 2 draw 2", cardTwo);
+  [cardOne, cardTwo].forEach((card) => {
+    console.log(`${card.code}: ${card.value} of ${card.suit}`);
   });
+}
+partTwo();
+
+// function rotateImg() {
+//   let rand = Math.floor(Math.random());
+//   return rotate(rand);
+// }
+
+let draw = {
+  async drawCard() {
+    let cardContainer = document.querySelector("#card-container");
+    let res = await axios.get(`${BASE_URL}new/shuffle/`);
+    drawCardBtn.addEventListener("click", async function (e) {
+      let cardData = await axios.get(
+        `${BASE_URL}${res.data.deck_id}${drawCardURLEndPoint}`
+      );
+      console.log(cardData.data);
+      const cardCode = cardData.data.cards[0].code;
+
+      cardImg.src = `https://deckofcardsapi.com/static/img/${cardCode}.png`;
+      // cardImg.style.transform = `rotate(${Math.random()})`;
+      cardContainer.append(cardImg);
+    });
+  },
 };
+draw.drawCard();

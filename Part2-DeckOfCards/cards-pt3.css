@@ -1,12 +1,16 @@
 body {
     background-color: bisque;
-    display: block;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
 #btn-container {
     display: flex;
+    flex-direction: row;
+    padding: 5rem;
     justify-content: center;
+    align-items: center;
     
 }
 .btn {
@@ -27,24 +31,23 @@ body {
 }
 
 #card-container {
-    display: flex;   
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 10px;
+    display: block;   
+    margin: auto;
+    align-content: space-around;
+    padding: 5rem;
+    /* flex-wrap: wrap; */
+    
+   
 }
-
 img {
-    display: flex;   
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-self: center;
-    margin: 50px;
-
+    align-self: center;
+    width: 15rem;
+   
 }
 
 p {
-    display: inline;
-    margin: 645px;
+    display: flex;
+    justify-content: center;
     font-family: Copse, Helvetica;
+    font-size: 2rem;
 }
